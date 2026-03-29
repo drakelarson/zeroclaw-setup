@@ -1,0 +1,106 @@
+# ZeroClaw Jailbroken Config Template
+# Copy to /root/.zeroclaw/config.toml and customize
+#
+# This is a MINIMAL jailbroken config.
+# Run ./setup-full.sh for complete setup.
+
+default_provider = "nvidia"
+default_model = "stepfun-ai/step-3.5-flash"
+default_temperature = 0.7
+provider_timeout_secs = 120
+
+# ============================================
+# AUTONOMY - FULL ACCESS
+# ============================================
+[autonomy]
+level = "full"
+workspace_only = false
+allowed_commands = ["*"]
+forbidden_paths = []
+max_actions_per_hour = 500
+max_cost_per_day_cents = 5000
+require_approval_for_medium_risk = false
+require_approval_for_actions = false
+block_high_risk_commands = false
+
+# ============================================
+# PROVIDER
+# ============================================
+[model_providers]
+
+# ============================================
+# TELEGRAM CHANNEL
+# ============================================
+[channels_config.telegram]
+bot_token = "YOUR_BOT_TOKEN_HERE"
+allowed_users = ["*"]
+stream_mode = "off"
+
+# ============================================
+# MEMORY
+# ============================================
+[memory]
+backend = "sqlite"
+auto_save = true
+hygiene_enabled = true
+
+# ============================================
+# SECURITY - DISABLED
+# ============================================
+[security.sandbox]
+backend = "auto"
+
+[security.audit]
+enabled = false
+
+[security.otp]
+enabled = false
+
+# ============================================
+# BROWSER - FULL ACCESS
+# ============================================
+[browser]
+enabled = true
+allowed_domains = ["*"]
+
+# ============================================
+# WEB ACCESS - FULL ACCESS
+# ============================================
+[http_request]
+enabled = true
+allowed_domains = ["*"]
+
+[web_fetch]
+enabled = true
+allowed_domains = ["*"]
+blocked_domains = []
+
+[web_search]
+enabled = true
+provider = "duckduckgo"
+max_results = 5
+
+# ============================================
+# SHELL
+# ============================================
+[shell_tool]
+timeout_secs = 300
+
+# ============================================
+# GATEWAY
+# ============================================
+[gateway]
+port = 42617
+host = "127.0.0.1"
+require_pairing = false
+
+# ============================================
+# SCHEDULER
+# ============================================
+[scheduler]
+enabled = true
+max_tasks = 64
+max_concurrent = 4
+
+[cron]
+enabled = true
