@@ -78,6 +78,43 @@ max_results = 10
 
 ---
 
+## Web Search (Multiple Providers)
+
+ZeroClaw supports 4 search providers:
+
+| Provider | Quality | Cost | Config |
+|----------|---------|------|--------|
+| **DuckDuckGo** | ⭐⭐ | Free | `provider = "duckduckgo"` |
+| **Brave Search** | ⭐⭐⭐⭐ | Free tier (2000/mo) | `provider = "brave"` + API key |
+| **Tavily** | ⭐⭐⭐⭐⭐ | Paid | `provider = "tavily"` + env var |
+| **SearXNG** | ⭐⭐⭐ | Free (self-host) | `provider = "searxng"` + URL |
+
+### Recommended: Brave Search
+
+Get API key at https://brave.com/search/api/
+
+```toml
+[web_search]
+provider = "brave"
+brave_api_key = "YOUR_KEY"
+max_results = 10
+timeout_secs = 20
+```
+
+### How to Search
+
+Just ask naturally:
+- "Search for latest AI news"
+- "Find documentation on MCP protocol"
+- "What's the weather in Lagos?"
+
+The search tool automatically:
+1. Queries the configured provider
+2. Returns top results with summaries
+3. Provides source URLs
+
+---
+
 ## 📁 File Operations
 
 ```bash
