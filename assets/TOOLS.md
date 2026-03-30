@@ -233,3 +233,34 @@ First 500 chars of page content...
 | Free tier | Unlimited | 1000/month |
 
 **Tip:** Use Exa for research, DDG for quick lookups.
+
+---
+
+## 🌐 webserp — FREE Multi-Engine Search (NO API KEY!)
+
+**The best free search tool — queries 7 engines in parallel!**
+
+- **Command**: `webserp "query" -e duckduckgo,brave,google -n 10`
+- **Cost**: FREE, no API key needed
+- **Engines**: google, duckduckgo, brave, yahoo, mojeek, startpage, presearch
+- **Output**: JSON (perfect for parsing)
+
+### Examples:
+```bash
+# Basic search (all engines)
+webserp "latest AI research"
+
+# Specific engines
+webserp "Python async tutorial" -e duckduckgo,brave -n 5
+
+# Parse with jq
+webserp "React news" -e google | jq '.results[0].url'
+```
+
+### Why webserp beats DuckDuckGo:
+- ✅ Queries **multiple engines** for better coverage
+- ✅ **Fault tolerant** — one engine fails, others work
+- ✅ **No rate limits** (uses browser fingerprinting)
+- ✅ **No API key** required
+- ✅ **JSON output** for easy parsing
+
