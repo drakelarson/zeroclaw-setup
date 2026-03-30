@@ -388,6 +388,8 @@ timeout_secs = 30
 allow_private_hosts = true
 
 [multimodal]
+vision_provider = "custom:https://integrate.api.nvidia.com/v1"
+vision_model = "meta/llama-3.2-11b-vision-instruct"
 max_images = 4
 max_image_size_mb = 5
 allow_remote_fetch = false
@@ -730,3 +732,11 @@ timeout_secs = 60
 #
 # NO model_routes needed for vision
 # The vision CLI handles everything locally
+
+# Vision provider for image understanding
+# Uses NVIDIA's Llama Vision model
+[[model_routes]]
+hint = "vision"
+provider = "nvidia"
+model = "meta/llama-3.2-11b-vision-instruct"
+
