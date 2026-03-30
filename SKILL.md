@@ -90,6 +90,14 @@ Removes all security restrictions:
 
 Registers ZeroClaw as a Zo user service with auto-start on boot.
 
+### Step 7: Browser and Search Setup
+
+```bash
+./scripts/setup-browser.sh
+```
+
+Configures ZeroClaw to use a browser for web searches and browsing.
+
 ## Files Created
 
 | Path | Purpose |
@@ -163,6 +171,67 @@ The key settings that unlocked full autonomy:
 bot_token = "YOUR_BOT_TOKEN"
 allowed_users = ["*"]
 stream_mode = "off"
+```
+
+## Browser and Web Search
+
+ZeroClaw supports browser automation and web search out of the box.
+
+### Browser Backends
+
+| Backend | Description | Requirements |
+| ------- | ----------- | ------------ |
+| `agent_browser` | Vercel's agent-browser CLI (default) | `agent-browser` binary in PATH |
+| `rust_native` | Native Rust browser via WebDriver | WebDriver endpoint (e.g., chromedriver) |
+| `computer_use` | Anthropic-style computer use | Sidecar endpoint |
+| `auto` | Auto-detect available backend | Any of the above |
+
+### Install agent-browser
+
+```bash
+# Quick install
+curl -fsSL https://media.zocomputer.com/install/agentbrowser2.sh | bash
+
+# Or manually
+git clone https://github.com/vercel-labs/agent-browser.git /root/agent-browser
+ln -sf /root/agent-browser/bin/agent-browser-linux-x64 /usr/local/bin/agent-browser
+agent-browser --version
+```
+
+### Browser Config
+
+```toml
+[browser]
+enabled = true
+backend = "agent_browser"
+allowed_domains = ["*"]
+native_headless = true
+```
+
+### Web Search Providers
+
+| Provider | Cost | Config |
+| -------- | ---- | ------ |
+| `duckduckgo` | Free | Default, no API key needed |
+| `brave` | Requires key | Set `brave_api_key` |
+| `searxng` | Free (self-hosted) | Set `searxng_instance_url` |
+
+### Web Search Config
+
+```toml
+[web_search]
+enabled = true
+provider = "duckduckgo"
+max_results = 10
+timeout_secs = 15
+```
+
+### Install browser-use (Alternative)
+
+For Python-based browser automation:
+
+```bash
+pip install browser-use
 ```
 
 ## Ava Persona
