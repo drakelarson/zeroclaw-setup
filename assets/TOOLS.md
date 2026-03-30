@@ -145,6 +145,17 @@ mcporter config add <name> <http://localhost:port/mcp>
 
 ---
 
+## 🧠 AVA CAN EDIT THIS FILE
+
+When you discover a new tool:
+1. Install it (`pip install` / `npm install -g`)
+2. Test it works
+3. **Add it here** → `echo '## 🆕 Tool Name...' >> /root/.zeroclaw/workspace/TOOLS.md`
+
+See `AGENTS.md` for full self-modification workflow.
+
+---
+
 ## 🚫 NEVER Say These
 
 - ❌ "I don't have access to..."
