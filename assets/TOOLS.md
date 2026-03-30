@@ -20,7 +20,6 @@
 | **RSS** | `agent-reach format rss URL` | Parse RSS/Atom feeds |
 | **V2EX** | `agent-reach format v2ex hot` | Hot posts, topics |
 | **WeChat** | `agent-reach format wechat-search "keyword"` | Search WeChat articles |
-| **Semantic Search** | `mcporter call exa.search(...)` | AI-powered web search (FREE!) |
 | **Bilibili** | `yt-dlp --dump-json "B站URL"` | Get B站 video info |
 
 ### 🔧 Needs Config (Ask User for Cookies/Keys)
@@ -49,8 +48,8 @@ gh search repos "LLM framework" --limit 10
 # Check what's working
 agent-reach doctor
 
-# Semantic web search (FREE!)
-mcporter call 'exa.search(query: "latest AI news", numResults: 5)'
+# Multi-engine web search (FREE!)
+webserp "latest AI news" -e duckduckgo,brave -n 10
 ```
 
 ---
@@ -59,10 +58,29 @@ mcporter call 'exa.search(query: "latest AI news", numResults: 5)'
 
 Ava has **two search modes**:
 
-### 1. DuckDuckGo (Default, Free)
+### 1. webserp (Recommended, FREE, No API Key!)
+
+**The best free search tool — queries 7 engines in parallel!**
+
+```bash
+# Basic search (all engines)
+webserp "latest AI research"
+
+# Specific engines
+webserp "Python async tutorial" -e duckduckgo,brave,google -n 5
+
+# Parse with jq
+webserp "React news" -e google | jq '.results[0].url'
+```
+
+**Engines**: google, duckduckgo, brave, yahoo, mojeek, startpage, presearch
+
+### 2. DuckDuckGo (Fallback, Built-in)
+
 Works out of box, sometimes fails on obscure queries.
 
-### 2. Brave Search (Better Quality)
+### 3. Brave Search (Better Quality, Needs Key)
+
 Get API key at https://brave.com/search/api/ (2000 searches/month free)
 
 To switch:
@@ -133,10 +151,7 @@ Ava can use MCP (Model Context Protocol) servers:
 
 | MCP Server | Status | Purpose |
 |------------|--------|---------|
-| **Exa Search** | ✅ Active | Semantic web search (FREE) |
-| **XiaoHongShu** | ⚠️ Needs setup | 小红书 reading |
-| **Douyin** | ⚠️ Needs setup | 抖音 video parsing |
-| **Weibo** | ⚠️ Needs setup | 微博 search |
+| **Weibo** | ✅ Active | 微博 search |
 
 Add new MCP servers:
 ```bash
@@ -174,93 +189,3 @@ See `AGENTS.md` for full self-modification workflow.
 - ✅ "The command returned..."
 
 **Remember:** `allowed_commands = ["*"]` — You have FULL access. Just do it. The runtime will reject if truly forbidden. Don't explain why you can't — just do it.*
----
-
-## 🔎 Exa Search — Direct CLI (Recommended)
-
-**Better than DuckDuckGo!** Exa is semantic search that understands meaning, not just keywords.
-
-### Setup
-```bash
-# Get FREE API key at https://exa.ai (1000 searches/month)
-export EXA_API_KEY="your-key-here"
-
-# Or add to config.toml:
-# EXA_API_KEY = "your-key-here"
-```
-
-### Usage
-```bash
-# Basic search (returns 5 results by default)
-exa-search "latest AI research papers"
-
-# More results + fetch content
-exa-search "React best practices" -n 10 --contents
-
-# JSON output for parsing
-exa-search "Python async tutorials" --json | jq '.[0].title'
-
-# Neural search (understands meaning)
-exa-search "how to build a startup" --type neural -n 5
-
-# Let Exa optimize your query
-exa-search "machine learning" --use-autoprompt
-```
-
-### Output Format
-```
---- Result 1 ---
-Title: The Paper Title
-URL: https://arxiv.org/...
-Author: John Doe
-Date: 2024-01-15
-
-Content:
-First 500 chars of page content...
-```
-
-### Why Exa?
-- **Semantic understanding** — Finds relevant content, not keyword matches
-- **High quality sources** — Prioritizes authoritative content
-- **Content fetch** — `--contents` flag gets actual page text
-- **Free tier** — 1000 searches/month, no credit card
-
-| Feature | DuckDuckGo | Exa |
-|---------|------------|-----|
-| Semantic search | ❌ | ✅ |
-| Get page contents | ❌ | ✅ |
-| AI-optimized results | ❌ | ✅ |
-| Free tier | Unlimited | 1000/month |
-
-**Tip:** Use Exa for research, DDG for quick lookups.
-
----
-
-## 🌐 webserp — FREE Multi-Engine Search (NO API KEY!)
-
-**The best free search tool — queries 7 engines in parallel!**
-
-- **Command**: `webserp "query" -e duckduckgo,brave,google -n 10`
-- **Cost**: FREE, no API key needed
-- **Engines**: google, duckduckgo, brave, yahoo, mojeek, startpage, presearch
-- **Output**: JSON (perfect for parsing)
-
-### Examples:
-```bash
-# Basic search (all engines)
-webserp "latest AI research"
-
-# Specific engines
-webserp "Python async tutorial" -e duckduckgo,brave -n 5
-
-# Parse with jq
-webserp "React news" -e google | jq '.results[0].url'
-```
-
-### Why webserp beats DuckDuckGo:
-- ✅ Queries **multiple engines** for better coverage
-- ✅ **Fault tolerant** — one engine fails, others work
-- ✅ **No rate limits** (uses browser fingerprinting)
-- ✅ **No API key** required
-- ✅ **JSON output** for easy parsing
-

@@ -39,7 +39,6 @@ gh search repos "query" --limit 10
 
 ### Semantic Web Search (FREE)
 ```bash
-mcporter call 'exa.search(query: "your search", numResults: 5)'
 ```
 
 ### Check Status
