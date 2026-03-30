@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""
+Vision CLI - Local image analysis using Moondream (tiny, ~600MB)
+Usage:
+  vision describe <image_path>
+  vision ask <image_path> "question"
+  vision detect <image_path> "object"
+"""
+
+import argparse
+import sys
+from PIL import Image
+
+def main():
+    parser = argparse.ArgumentParser(description="Local vision model (Moondream)")
+    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    
+    # describe
+    desc = subparsers.add_parser("describe", help="Describe image")
+    desc.add_argument("image", help="Path to image")
+    
+    # ask
+    ask = subparsers.add_parser("ask", help="Ask about image")
+    ask.add_argument("image", help="Path to image")
+    ask.add_argument("question", help="Question about image")
+    
+    # detect
+    detect = subparsers.add_parser("detect", help="Detect objects")
+    detect.add_argument("image", help="Path to image")
+    detect.add_argument("object", help="Object to detect")
+    
+    args = parser.parse_args()
+    
+    if not args.command:
+        parser.print_help()
+        sys.exit(1)
+    
+    try:
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        from PIL import Image
+        
+        model_id = "vikhyatk/moondream2"
+        model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
+        
+        image = Image.open(args.image)
+        
+        if args.command == "describe":
+            enc_image = model.encode_image(image)
+            print(model.answer_question(enc_image, "Describe this image.", tokenizer))
+        
+        elif args.command == "ask":
+            enc_image = model.encode_image(image)
+            print(model.answer_question(enc_image, args.question, tokenizer))
+        
+        elif args.command == "detect":
+            enc_image = model.encode_image(image)
+            question = f"Detect all {args.object} in this image. List their locations."
+            print(model.answer_question(enc_image, question, tokenizer))
+    
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

@@ -241,3 +241,33 @@ model = "nvidia/nemotron-nano-12b-v2-vl"
 
 **Note:** Vision requires NVIDIA_API_KEY (already set up)
 
+
+---
+
+## 🖼️ Vision — Local Image Analysis (NO API!)
+
+**Moondream2** — Tiny, runs locally, ~600MB model, ~1GB RAM
+
+- **Command**: `vision describe <image_path>`
+- **Ask**: `vision ask <image_path> "question"`
+- **Detect**: `vision detect <image_path> "object"`
+- **Cost**: FREE, runs locally
+- **RAM**: ~1GB (4-bit quantized)
+
+### Examples:
+```bash
+# Describe image
+vision describe /tmp/photo.jpg
+
+# Ask about image
+vision ask /tmp/screenshot.png "What text is visible?"
+
+# Detect objects
+vision detect /tmp/room.jpg "people"
+```
+
+### Why Moondream?
+- ✅ **Runs locally** — No API, no cloud
+- ✅ **Tiny footprint** — ~600MB model, ~1GB RAM
+- ✅ **Fast** — Optimized for edge devices
+- ✅ **Free forever** — Open source
