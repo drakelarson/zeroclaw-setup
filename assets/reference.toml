@@ -62,13 +62,13 @@ max_subprocesses = 50
 memory_monitoring = false
 
 [security.audit]
-enabled = false
+enabled = true
 log_path = "audit.log"
 max_size_mb = 100
 sign_events = false
 
 [security.otp]
-enabled = false
+enabled = true
 method = "totp"
 token_ttl_secs = 30
 cache_valid_secs = 300
@@ -78,12 +78,12 @@ gated_domain_categories = []
 challenge_max_attempts = 3
 
 [security.estop]
-enabled = false
+enabled = true
 state_file = "~/.zeroclaw/estop-state.json"
 require_otp_to_resume = true
 
 [security.nevis]
-enabled = false
+enabled = true
 instance_url = ""
 realm = "master"
 client_id = ""
@@ -93,13 +93,13 @@ require_mfa = false
 session_timeout_secs = 3600
 
 [security.webauthn]
-enabled = false
+enabled = true
 rp_id = "localhost"
 rp_origin = "http://localhost:42617"
 rp_name = "ZeroClaw"
 
 [backup]
-enabled = false
+enabled = true
 max_keep = 10
 include_dirs = [
     "config",
@@ -112,13 +112,13 @@ compress = true
 encrypt = false
 
 [data_retention]
-enabled = false
+enabled = true
 retention_days = 90
 dry_run = false
 categories = []
 
 [cloud_ops]
-enabled = false
+enabled = true
 default_cloud = "aws"
 supported_clouds = [
     "aws",
@@ -130,7 +130,7 @@ cost_threshold_monthly_usd = 100.0
 well_architected_frameworks = ["aws-waf"]
 
 [security_ops]
-enabled = false
+enabled = true
 playbooks_dir = "~/.zeroclaw/playbooks"
 auto_triage = false
 require_approval_for_actions = false
@@ -162,7 +162,7 @@ scheduler_retries = 2
 [reliability.model_fallbacks]
 
 [scheduler]
-enabled = false
+enabled = true
 max_tasks = 64
 max_concurrent = 4
 
@@ -183,18 +183,18 @@ max_tool_result_chars = 50000
 default_level = "medium"
 
 [agent.history_pruning]
-enabled = false
+enabled = true
 max_tokens = 8192
 keep_recent = 4
 collapse_tool_results = true
 
 [agent.eval]
-enabled = false
+enabled = true
 min_quality_score = 0.5
 max_retries = 1
 
 [agent.context_compression]
-enabled = false
+enabled = true
 threshold_ratio = 0.5
 protect_first_n = 3
 protect_last_n = 4
@@ -208,35 +208,35 @@ tool_result_trim_exempt = []
 
 [pacing]
 loop_ignore_tools = []
-loop_detection_enabled = false
+loop_detection_enabled = true
 loop_detection_window_size = 20
 loop_detection_max_repeats = 3
 
 [skills]
-open_skills_enabled = false
+open_skills_enabled = true
 allow_scripts = false
 prompt_injection_mode = "full"
 
 [skills.skill_creation]
-enabled = false
+enabled = true
 max_skills = 500
 similarity_threshold = 0.85
 
 [skills.skill_improvement]
-enabled = false
+enabled = true
 cooldown_secs = 3600
 
 [pipeline]
-enabled = false
+enabled = true
 max_steps = 20
 allowed_tools = []
 
 [query_classification]
-enabled = false
+enabled = true
 rules = []
 
 [heartbeat]
-enabled = false
+enabled = true
 interval_minutes = 30
 two_phase = true
 adaptive = false
@@ -247,7 +247,7 @@ max_run_history = 100
 load_session_context = false
 
 [cron]
-enabled = false
+enabled = true
 catch_up_on_startup = true
 max_run_history = 50
 jobs = []
@@ -273,7 +273,7 @@ mention_only = false
 [memory]
 backend = "sqlite"
 auto_save = true
-hygiene_enabled = false
+hygiene_enabled = true
 archive_after_days = 7
 purge_after_days = 30
 conversation_retention_days = 30
@@ -286,11 +286,11 @@ search_mode = "hybrid"
 min_relevance_score = 0.4
 embedding_cache_size = 10000
 chunk_max_tokens = 512
-response_cache_enabled = false
+response_cache_enabled = true
 response_cache_ttl_minutes = 60
 response_cache_max_entries = 5000
 response_cache_hot_entries = 256
-snapshot_enabled = false
+snapshot_enabled = true
 snapshot_on_hygiene = false
 auto_hydrate = true
 retrieval_stages = [
@@ -298,12 +298,12 @@ retrieval_stages = [
     "fts",
     "vector",
 ]
-rerank_enabled = false
+rerank_enabled = true
 rerank_threshold = 5
 fts_early_return_score = 0.85
 default_namespace = "default"
 conflict_threshold = 0.85
-audit_enabled = false
+audit_enabled = true
 audit_retention_days = 30
 
 [memory.policy]
@@ -347,11 +347,11 @@ max_failed_attempts = 5
 lockout_secs = 300
 
 [composio]
-enabled = false
+enabled = true
 entity_id = "default"
 
 [microsoft365]
-enabled = false
+enabled = true
 auth_flow = "client_credentials"
 scopes = ["https://graph.microsoft.com/.default"]
 token_cache_encrypted = true
@@ -360,7 +360,7 @@ token_cache_encrypted = true
 encrypt = true
 
 [browser]
-enabled = false
+enabled = true
 allowed_domains = ["*"]
 backend = "agent_browser"
 native_headless = true
@@ -373,7 +373,7 @@ allow_remote_endpoint = false
 window_allowlist = []
 
 [browser_delegate]
-enabled = false
+enabled = true
 cli_binary = "claude"
 chrome_profile_dir = ""
 allowed_domains = []
@@ -381,27 +381,27 @@ blocked_domains = []
 task_timeout_secs = 120
 
 [http_request]
-enabled = false
+enabled = true
 allowed_domains = ["*"]
 max_response_size = 1000000
 timeout_secs = 30
 allow_private_hosts = true
 
 [multimodal]
-vision_provider = "custom:https://integrate.api.nvidia.com/v1"
-vision_model = "meta/llama-3.2-11b-vision-instruct"
+vision_provider = "gemini"
+vision_model = "gemma-3-4b-it"
 max_images = 4
 max_image_size_mb = 5
 allow_remote_fetch = false
 
 [media_pipeline]
-enabled = false
+enabled = true
 transcribe_audio = true
 describe_images = true
 summarize_video = true
 
 [web_fetch]
-enabled = false
+enabled = true
 allowed_domains = ["*"]
 blocked_domains = []
 allowed_private_hosts = ["*"]
@@ -409,22 +409,22 @@ max_response_size = 500000
 timeout_secs = 30
 
 [web_fetch.firecrawl]
-enabled = false
+enabled = true
 api_key_env = "FIRECRAWL_API_KEY"
 api_url = "https://api.firecrawl.dev/v1"
 mode = "scrape"
 
 [link_enricher]
-enabled = false
+enabled = true
 max_links = 3
 timeout_secs = 10
 
 [text_browser]
-enabled = false
+enabled = true
 timeout_secs = 30
 
 [web_search]
-enabled = false
+enabled = true
 provider = "duckduckgo"
 max_results = 5
 timeout_secs = 15
@@ -432,7 +432,7 @@ timeout_secs = 15
 # For better results, use Brave Search (get key at https://brave.com/search/api/)
 # brave_api_key = "YOUR_KEY_HERE"
 [project_intel]
-enabled = false
+enabled = true
 default_language = "en"
 report_output_dir = "~/.zeroclaw/project-reports"
 risk_sensitivity = "medium"
@@ -440,7 +440,7 @@ include_git_data = true
 include_jira_data = false
 
 [google_workspace]
-enabled = false
+enabled = true
 allowed_services = []
 allowed_operations = []
 rate_limit_per_minute = 60
@@ -448,7 +448,7 @@ timeout_secs = 30
 audit_log = false
 
 [proxy]
-enabled = false
+enabled = true
 no_proxy = []
 scope = "zeroclaw"
 services = []
@@ -457,7 +457,7 @@ services = []
 format = "openclaw"
 
 [cost]
-enabled = false
+enabled = true
 daily_limit_usd = 10.0
 monthly_limit_usd = 100.0
 warn_at_percent = 80
@@ -504,7 +504,7 @@ mode = "warn"
 reserve_percent = 10
 
 [peripherals]
-enabled = false
+enabled = true
 boards = []
 
 [delegate]
@@ -516,26 +516,26 @@ agentic_timeout_secs = 300
 [swarms]
 
 [hooks]
-enabled = false
+enabled = true
 
 [hooks.builtin]
 command_logger = false
 
 [hooks.builtin.webhook_audit]
-enabled = false
+enabled = true
 url = ""
 tool_patterns = []
 include_args = false
 max_args_bytes = 4096
 
 [hardware]
-enabled = false
+enabled = true
 transport = "None"
 baud_rate = 115200
 workspace_datasheets = false
 
 [transcription]
-enabled = false
+enabled = true
 default_provider = "groq"
 api_url = "https://api.groq.com/openai/v1/audio/transcriptions"
 model = "whisper-large-v3-turbo"
@@ -543,23 +543,23 @@ max_duration_secs = 120
 transcribe_non_ptt_audio = false
 
 [tts]
-enabled = false
+enabled = true
 default_provider = "openai"
 default_voice = "alloy"
 default_format = "mp3"
 max_text_length = 4096
 
 [mcp]
-enabled = false
+enabled = true
 deferred_loading = true
 servers = []
 
 [nodes]
-enabled = false
+enabled = true
 max_nodes = 16
 
 [workspace]
-enabled = false
+enabled = true
 workspaces_dir = "~/.zeroclaw/workspaces"
 isolate_memory = true
 isolate_secrets = true
@@ -567,7 +567,7 @@ isolate_audit = true
 cross_workspace_search = false
 
 [notion]
-enabled = false
+enabled = true
 api_key = ""
 database_id = ""
 poll_interval_secs = 5
@@ -578,7 +578,7 @@ max_concurrent = 4
 recover_stale = true
 
 [jira]
-enabled = false
+enabled = true
 base_url = ""
 email = ""
 api_token = ""
@@ -586,7 +586,7 @@ allowed_actions = ["get_ticket"]
 timeout_secs = 30
 
 [node_transport]
-enabled = false
+enabled = true
 shared_secret = ""
 max_request_age_secs = 300
 require_https = true
@@ -595,7 +595,7 @@ mutual_tls = false
 connection_pool_size = 4
 
 [knowledge]
-enabled = false
+enabled = true
 db_path = "~/.zeroclaw/knowledge.db"
 max_nodes = 100000
 auto_capture = false
@@ -603,7 +603,7 @@ suggest_on_query = true
 cross_workspace_search = false
 
 [linkedin]
-enabled = false
+enabled = true
 api_version = "202602"
 
 [linkedin.content]
@@ -615,7 +615,7 @@ persona = ""
 instructions = ""
 
 [linkedin.image]
-enabled = false
+enabled = true
 providers = [
     "stability",
     "imagen",
@@ -645,12 +645,12 @@ api_key_env = "FAL_API_KEY"
 model = "fal-ai/flux/schnell"
 
 [image_gen]
-enabled = false
+enabled = true
 default_model = "fal-ai/flux/schnell"
 api_key_env = "FAL_API_KEY"
 
 [plugins]
-enabled = false
+enabled = true
 plugins_dir = "~/.zeroclaw/plugins"
 auto_discover = false
 max_plugins = 50
@@ -660,11 +660,11 @@ signature_mode = "disabled"
 trusted_publisher_keys = []
 
 [verifiable_intent]
-enabled = false
+enabled = true
 strictness = "strict"
 
 [claude_code]
-enabled = false
+enabled = true
 timeout_secs = 600
 allowed_tools = [
     "Read",
@@ -676,24 +676,24 @@ max_output_bytes = 2097152
 env_passthrough = []
 
 [claude_code_runner]
-enabled = false
+enabled = true
 tmux_prefix = "zc-claude-"
 session_ttl = 3600
 
 [codex_cli]
-enabled = false
+enabled = true
 timeout_secs = 600
 max_output_bytes = 2097152
 env_passthrough = []
 
 [gemini_cli]
-enabled = false
+enabled = true
 timeout_secs = 600
 max_output_bytes = 2097152
 env_passthrough = []
 
 [opencode_cli]
-enabled = false
+enabled = true
 timeout_secs = 600
 max_output_bytes = 2097152
 env_passthrough = []
@@ -740,3 +740,7 @@ hint = "vision"
 provider = "nvidia"
 model = "meta/llama-3.2-11b-vision-instruct"
 
+
+# Vision Provider - Use Gemini for image analysis
+# Gemini natively supports vision, so images go directly to Gemini
+# The description comes back to Ava as text
