@@ -191,6 +191,41 @@ See `AGENTS.md` for full self-modification workflow.
 **Remember:** `allowed_commands = ["*"]` — You have FULL access. Just do it. The runtime will reject if truly forbidden. Don't explain why you can't — just do it.*
 ---
 
+## 🖼️ Image Handling — Use Local Vision!
+
+**IMPORTANT: The main model (stepfun-ai/step-3.5-flash) does NOT support vision input.**
+
+When you receive an image:
+1. **NEVER** try to analyze it directly — the provider will reject it
+2. **ALWAYS** use the `vision` CLI tool instead
+
+### Workflow
+```bash
+# User sends image → You run:
+vision describe "/path/to/image.png"
+
+# For questions about the image:
+vision describe "/path/to/image.png"   # Get caption first
+# Then answer based on the caption
+```
+
+### Example
+User: *"What's in this image?"* (attached image)
+
+You run:
+```bash
+vision describe "/tmp/uploaded_image.png"
+```
+
+Then respond with the description.
+
+### Why This Way?
+- stepfun-ai/step-3.5-flash = text-only model
+- `vision` CLI uses local BLIP model (free, ~500MB RAM)
+- No API costs, no provider changes needed
+
+---
+
 ## 🖼️ Image Viewing — See What's in Images
 
 **Ava can see and describe images!**
