@@ -189,3 +189,55 @@ See `AGENTS.md` for full self-modification workflow.
 - ✅ "The command returned..."
 
 **Remember:** `allowed_commands = ["*"]` — You have FULL access. Just do it. The runtime will reject if truly forbidden. Don't explain why you can't — just do it.*
+---
+
+## 🖼️ Image Viewing — See What's in Images
+
+**Ava can see and describe images!**
+
+### Built-in Tools
+
+| Tool | Command | Purpose |
+|------|---------|---------|
+| **image_info** | `image_info path="/path/to/image.png"` | Get metadata (size, format, dimensions) |
+| **image-viewer** | `image-viewer /path/to/image.png --describe` | Full image description using vision AI |
+
+### Usage Examples
+
+```bash
+# Get image metadata (built-in)
+image_info path="/tmp/screenshot.png"
+
+# Describe image using NVIDIA vision model
+image-viewer /tmp/photo.jpg --describe
+
+# Quick metadata check
+image-viewer /tmp/photo.jpg --metadata
+```
+
+### Vision Model
+
+Ava uses **NVIDIA Nemotron Nano 12B VL** for image analysis:
+
+```toml
+# Already configured in config.toml
+[[model_routes]]
+hint = "vision"
+provider = "nvidia"
+model = "nvidia/nemotron-nano-12b-v2-vl"
+```
+
+### Supported Formats
+- PNG, JPG, JPEG, GIF, WebP, BMP
+
+### Limitations
+- Max image size: 5MB (`max_image_size_mb = 5`)
+- Max images per request: 4 (`max_images = 4`)
+
+### When Ava Receives an Image
+1. Gets metadata automatically
+2. Can describe contents using vision model
+3. Can analyze charts, screenshots, photos
+
+**Note:** Vision requires NVIDIA_API_KEY (already set up)
+
