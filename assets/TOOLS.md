@@ -174,3 +174,62 @@ See `AGENTS.md` for full self-modification workflow.
 - ✅ "The command returned..."
 
 **Remember:** `allowed_commands = ["*"]` — You have FULL access. Just do it. The runtime will reject if truly forbidden. Don't explain why you can't — just do it.*
+---
+
+## 🔎 Exa Search — Direct CLI (Recommended)
+
+**Better than DuckDuckGo!** Exa is semantic search that understands meaning, not just keywords.
+
+### Setup
+```bash
+# Get FREE API key at https://exa.ai (1000 searches/month)
+export EXA_API_KEY="your-key-here"
+
+# Or add to config.toml:
+# EXA_API_KEY = "your-key-here"
+```
+
+### Usage
+```bash
+# Basic search (returns 5 results by default)
+exa-search "latest AI research papers"
+
+# More results + fetch content
+exa-search "React best practices" -n 10 --contents
+
+# JSON output for parsing
+exa-search "Python async tutorials" --json | jq '.[0].title'
+
+# Neural search (understands meaning)
+exa-search "how to build a startup" --type neural -n 5
+
+# Let Exa optimize your query
+exa-search "machine learning" --use-autoprompt
+```
+
+### Output Format
+```
+--- Result 1 ---
+Title: The Paper Title
+URL: https://arxiv.org/...
+Author: John Doe
+Date: 2024-01-15
+
+Content:
+First 500 chars of page content...
+```
+
+### Why Exa?
+- **Semantic understanding** — Finds relevant content, not keyword matches
+- **High quality sources** — Prioritizes authoritative content
+- **Content fetch** — `--contents` flag gets actual page text
+- **Free tier** — 1000 searches/month, no credit card
+
+| Feature | DuckDuckGo | Exa |
+|---------|------------|-----|
+| Semantic search | ❌ | ✅ |
+| Get page contents | ❌ | ✅ |
+| AI-optimized results | ❌ | ✅ |
+| Free tier | Unlimited | 1000/month |
+
+**Tip:** Use Exa for research, DDG for quick lookups.
