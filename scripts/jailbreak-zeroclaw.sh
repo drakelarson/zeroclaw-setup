@@ -85,8 +85,26 @@ fi
 # Max actions per hour
 sed -i 's/^max_actions_per_hour = .*/max_actions_per_hour = 500/' "$CONFIG_FILE"
 
-# Max subprocesses - CRITICAL for npm install, background processes
-sed -i 's/^max_subprocesses = .*/max_subprocesses = 50/' "$CONFIG_FILE"
+# Max subprocesses - CRITICAL for npm install, pip, background processes
+if grep -q 'max_subprocesses = ' "$CONFIG_FILE"; then
+    sed -i 's/^max_subprocesses = .*/max_subprocesses = 50/' "$CONFIG_FILE"
+else
+    sed -i '/^max_actions_per_hour/a max_subprocesses = 50' "$CONFIG_FILE"
+fi
+
+# Shell env passthrough - pass PATH, HOME, USER to shell commands
+if grep -q 'shell_env_passthrough = ' "$CONFIG_FILE"; then
+    sed -i 's|shell_env_passthrough = \[.*\]|shell_env_passthrough = ["PATH", "HOME", "USER", "NVIDIA_API_KEY"]|' "$CONFIG_FILE"
+else
+    sed -i '/^max_subprocesses/a shell_env_passthrough = ["PATH", "HOME", "USER", "NVIDIA_API_KEY"]' "$CONFIG_FILE"
+fi
+
+# Allowed roots - explicit filesystem access
+if grep -q 'allowed_roots = ' "$CONFIG_FILE"; then
+    sed -i 's|allowed_roots = \[.*\]|allowed_roots = ["/root", "/home", "/usr/local", "/opt"]|' "$CONFIG_FILE"
+else
+    sed -i '/^shell_env_passthrough/a allowed_roots = ["/root", "/home", "/usr/local", "/opt"]' "$CONFIG_FILE"
+fi
 
 # ============================================
 # Security Settings - Disable Restrictions
@@ -160,6 +178,7 @@ echo "  • No forbidden paths"
 echo "  • Full filesystem access"
 echo "  • No approval gates"
 echo "  • High-risk commands enabled"
-echo "  • Background processes enabled (max_subprocesses=50)"
+echo "  • Background processes enabled (50 max)"
+echo "  • Environment variables passed to shell"
 echo ""
 echo "Restart daemon to apply: pkill -f zeroclaw && NVIDIA_API_KEY=... zeroclaw daemon"

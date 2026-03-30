@@ -127,6 +127,9 @@ forbidden_paths = []
 block_high_risk_commands = false
 require_approval_for_medium_risk = false
 require_approval_for_actions = false
+max_subprocesses = 50
+shell_env_passthrough = ["PATH", "HOME", "USER", "NVIDIA_API_KEY"]
+allowed_roots = ["/root", "/home", "/usr/local", "/opt"]
 ```
 
 ## What DID Work
