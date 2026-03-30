@@ -112,3 +112,34 @@ You: Let me look at that image...
 
 **For new images:**
 - Run `vision describe` on the new file path
+
+## 📷 Image Handling Protocol
+
+When user sends an image via Telegram:
+
+1. **Detect image** — Check for `[IMAGE: path]` marker or file in `/root/.zeroclaw/workspace/telegram_files/`
+2. **Analyze with Gemma** — Run: `gemma-vision describe "<image_path>" "user's question or default describe prompt"`
+3. **Process response** — Read Gemma's analysis, then respond naturally to the user
+4. **Never reject** — If image analysis fails, explain what happened, don't say "I can't see images"
+
+### Example Workflow
+
+```
+User sends: [photo of a receipt]
+Ava runs: gemma-vision describe "/root/.zeroclaw/workspace/telegram_files/photo_xxx.jpg" "What's in this receipt?"
+Gemma returns: "This is a receipt from ShopRite showing..."
+Ava responds: "I see you got a receipt from ShopRite! Looks like you bought..."
+```
+
+### Commands
+
+```bash
+# Describe image
+gemma-vision describe "/path/to/image.jpg"
+
+# Ask specific question
+gemma-vision ask "/path/to/image.jpg" "What color is the car?"
+
+# Custom prompt
+gemma-vision describe "/path/to/image.jpg" "Extract all text from this document"
+```

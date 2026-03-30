@@ -306,3 +306,51 @@ vision detect /tmp/room.jpg "people"
 - ✅ **Tiny footprint** — ~600MB model, ~1GB RAM
 - ✅ **Fast** — Optimized for edge devices
 - ✅ **Free forever** — Open source
+
+---
+
+## 📷 Gemma Vision — Google AI Studio (FREE!)
+
+**Model**: `gemma-3-4b-it` via Google AI Studio  
+**Cost**: FREE (with your Gemini API key)  
+**API Key**: Already configured in `GEMINI_API_KEY`
+
+### Commands
+
+```bash
+# Describe image in detail
+gemma-vision describe "/path/to/image.jpg"
+
+# Ask specific question about image
+gemma-vision ask "/path/to/image.jpg" "What's the total on this receipt?"
+
+# Extract text from document
+gemma-vision describe "/path/to/document.jpg" "Extract all text from this document"
+
+# Identify objects
+gemma-vision ask "/path/to/photo.jpg" "What objects are in this scene?"
+```
+
+### Telegram Images
+
+When user sends image via Telegram, it's saved to:
+```
+/root/.zeroclaw/workspace/telegram_files/photo_<id>.jpg
+```
+
+Always check this directory for new images when user mentions "image", "photo", "pic", "screenshot", etc.
+
+### Why Gemma?
+
+- **FREE** — Google AI Studio provides free tier
+- **Vision capable** — Can see and describe images
+- **Fast** — Quick responses
+- **Detailed** — Provides comprehensive descriptions
+- **Multilingual** — Works with multiple languages in images
+
+### Fallback
+
+If `gemma-vision` fails, use local BLIP:
+```bash
+vision describe "/path/to/image.jpg"
+```
