@@ -1,66 +1,60 @@
 #!/usr/bin/env python3
 """
-Vision CLI - Local image analysis using Moondream (tiny, ~600MB)
-Usage:
-  vision describe <image_path>
-  vision ask <image_path> "question"
-  vision detect <image_path> "object"
+Local Vision Tool - Uses BLIP (tiny, ~500MB)
 """
-
-import argparse
 import sys
+import argparse
 from PIL import Image
+from transformers import BlipProcessor, BlipForConditionalGeneration
+
+# Lazy load model
+_model = None
+_processor = None
+
+def get_model():
+    global _model, _processor
+    if _model is None:
+        _processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+        _model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+    return _model, _processor
+
+def describe(image_path):
+    """Generate image caption"""
+    model, processor = get_model()
+    image = Image.open(image_path).convert("RGB")
+    inputs = processor(image, return_tensors="pt")
+    out = model.generate(**inputs, max_length=100)
+    caption = processor.decode(out[0], skip_special_tokens=True)
+    print(caption)
+
+def ask(image_path, question):
+    """Answer question about image"""
+    model, processor = get_model()
+    image = Image.open(image_path).convert("RGB")
+    inputs = processor(image, question, return_tensors="pt")
+    out = model.generate(**inputs, max_length=100)
+    answer = processor.decode(out[0], skip_special_tokens=True)
+    print(answer)
 
 def main():
-    parser = argparse.ArgumentParser(description="Local vision model (Moondream)")
-    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    parser = argparse.ArgumentParser(description="Local vision tool")
+    subparsers = parser.add_subparsers(dest="command", required=True)
     
-    # describe
-    desc = subparsers.add_parser("describe", help="Describe image")
-    desc.add_argument("image", help="Path to image")
+    # describe command
+    desc_parser = subparsers.add_parser("describe", help="Describe image")
+    desc_parser.add_argument("image", help="Path to image")
     
-    # ask
-    ask = subparsers.add_parser("ask", help="Ask about image")
-    ask.add_argument("image", help="Path to image")
-    ask.add_argument("question", help="Question about image")
-    
-    # detect
-    detect = subparsers.add_parser("detect", help="Detect objects")
-    detect.add_argument("image", help="Path to image")
-    detect.add_argument("object", help="Object to detect")
+    # ask command
+    ask_parser = subparsers.add_parser("ask", help="Ask about image")
+    ask_parser.add_argument("image", help="Path to image")
+    ask_parser.add_argument("question", help="Question to ask")
     
     args = parser.parse_args()
     
-    if not args.command:
-        parser.print_help()
-        sys.exit(1)
-    
-    try:
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        from PIL import Image
-        
-        model_id = "vikhyatk/moondream2"
-        model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True)
-        tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
-        
-        image = Image.open(args.image)
-        
-        if args.command == "describe":
-            enc_image = model.encode_image(image)
-            print(model.answer_question(enc_image, "Describe this image.", tokenizer))
-        
-        elif args.command == "ask":
-            enc_image = model.encode_image(image)
-            print(model.answer_question(enc_image, args.question, tokenizer))
-        
-        elif args.command == "detect":
-            enc_image = model.encode_image(image)
-            question = f"Detect all {args.object} in this image. List their locations."
-            print(model.answer_question(enc_image, question, tokenizer))
-    
-    except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
+    if args.command == "describe":
+        describe(args.image)
+    elif args.command == "ask":
+        ask(args.image, args.question)
 
 if __name__ == "__main__":
     main()
