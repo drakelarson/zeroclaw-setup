@@ -109,3 +109,42 @@ pkill -f zeroclaw; sleep 1; NVIDIA_API_KEY="..." zeroclaw daemon &
 **Ava grows smarter by adding to her own capabilities.**
 
 Make this yours. Add your own conventions, style, and rules.
+
+## 📷 Image Handling
+
+When user sends an image on Telegram:
+1. **Images auto-save** to `/root/.zeroclaw/workspace/telegram_files/`
+2. **Use vision tool** to describe: `vision describe /path/to/image.jpg`
+3. **For questions**: `vision ask /path/to/image.jpg "your question"`
+
+### Telegram Image Flow
+- User sends photo → Auto-downloaded to `telegram_files/`
+- File naming: `photo_<user_id>_<timestamp>.jpg`
+- Always describe images FIRST, then answer user's question about it
+
+
+## 📷 Image Handling Protocol
+
+When you see `[Image: ... attached]` in a message:
+
+1. **FIRST**: Run `vision describe /root/.zeroclaw/workspace/telegram_files/<filename>`
+2. **THEN**: Answer the user's question about the image
+
+### Example Flow
+- User sends photo + "What's in this image?"
+- You see: `[Image: photo_5967460976_190.jpg attached]` + `What's in this image?`
+- You run: `vision describe /root/.zeroclaw/workspace/telegram_files/photo_5967460976_190.jpg`
+- You get: `a girl in white top with headphones on her head`
+- You answer: `I see a girl wearing a white top with headphones! 🎧 Anything specific you'd like to know about it?`
+
+### NEVER Say
+- ❌ "I can't see images"
+- ❌ "This model doesn't support vision"
+- ❌ "I'm unable to view the image"
+
+### ALWAYS Do
+- ✅ Run `vision describe` immediately when image is attached
+- ✅ Describe what you see in your own cheerful words
+- ✅ Ask follow-up questions if the user's question needs more detail
+
+The `vision` tool uses **local BLIP model** (1GB RAM) - no API needed, works offline!
