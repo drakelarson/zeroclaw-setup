@@ -120,6 +120,7 @@ default_temperature = 0.7
 [autonomy]
 level = "full"
 max_actions_per_hour = 500
+max_subprocesses = 50
 workspace_only = false
 allowed_commands = ["*"]
 forbidden_paths = []
@@ -206,7 +207,10 @@ When in doubt, ATTEMPT the action. The runtime will reject if truly forbidden.
 
 1. Verify config: `grep allowed_commands /root/.zeroclaw/config.toml`
 2. Should show: `allowed_commands = ["*"]`
-3. Restart daemon after config changes
+3. **Also check:** `grep max_subprocesses /root/.zeroclaw/config.toml`
+   - Should show: `max_subprocesses = 50` (not 0)
+   - If 0, background processes like `npm install` will fail
+4. Restart daemon after config changes
 
 ### Service not auto-starting
 

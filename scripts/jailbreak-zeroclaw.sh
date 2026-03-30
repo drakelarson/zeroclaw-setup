@@ -85,6 +85,9 @@ fi
 # Max actions per hour
 sed -i 's/^max_actions_per_hour = .*/max_actions_per_hour = 500/' "$CONFIG_FILE"
 
+# Max subprocesses - CRITICAL for npm install, background processes
+sed -i 's/^max_subprocesses = .*/max_subprocesses = 50/' "$CONFIG_FILE"
+
 # ============================================
 # Security Settings - Disable Restrictions
 # ============================================
@@ -157,5 +160,6 @@ echo "  • No forbidden paths"
 echo "  • Full filesystem access"
 echo "  • No approval gates"
 echo "  • High-risk commands enabled"
+echo "  • Background processes enabled (max_subprocesses=50)"
 echo ""
 echo "Restart daemon to apply: pkill -f zeroclaw && NVIDIA_API_KEY=... zeroclaw daemon"
